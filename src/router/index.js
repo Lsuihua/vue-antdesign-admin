@@ -1,0 +1,132 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+import Layout from '@/views/layout/index'
+
+export default new Router({
+    mode: 'history',
+    base:'/',
+    routes:[
+        {
+            path:'/',
+            component: Layout,
+            redirect: 'dashboard',
+            children:[
+                {
+                    path:'/dashboard',
+                    component: () => import('@/views/dashboard/index'),
+                    name:'index',
+                    meta:{title:'dashboard',index:0}
+                }
+            ]
+        },
+        {
+            path:'/',
+            component: Layout,
+            redirect: '/system',
+            children:[
+                {
+                    path: '/homeConfig',
+                    component: () => import('@/views/system/homeConfig'),
+                    name: 'home-config',
+                    meta: {title: 'homeConfig', index: 1.1},
+                },
+                {
+                    path: '/roleConfig',
+                    component: () => import('@/views/system/roleConfig'),
+                    name: 'role-config',
+                    meta: {title: 'roleConfig', index: 1.2},
+                },
+                {
+                    path: '/menuConfig',
+                    component: () => import('@/views/system/menuConfig'),
+                    name: 'menu-config',
+                    meta: {title: 'menuConfig', index: 1.3},
+                },
+            ]
+        },
+        {
+            path:'/',
+            component: Layout,
+            redirect: '/service',
+            children:[
+                {
+                    path: '/article',
+                    component: () => import('@/views/service/articles/index'),
+                    name: 'index',
+                    meta: {title: 'article', index: 2.1}
+                },
+                {
+                    path: '/event',
+                    component: () => import('@/views/service/events/index'),
+                    name: 'index',
+                    meta: {title: 'event', index: 2.2}
+                },
+                {
+                    path: '/user',
+                    component: () => import('@/views/service/users/index'),
+                    name: 'index',
+                    meta: {title: 'user', index: 2.3}
+                },
+                {
+                    path: '/store',
+                    component: () => import('@/views/service/stores/index'),
+                    name: 'index',
+                    meta: {title: 'store', index: 2.4}
+                }
+            ]
+        },
+        {
+            path:'/',
+            component: Layout,
+            redirect: '/assets',
+            children:[
+                {
+                    path: '/image',
+                    component: () => import('@/views/resources/imgs/index'),
+                    name: 'index',
+                    meta: {title: 'image', index: 3.1}
+                },
+                {
+                    path: '/music',
+                    component: () => import('@/views/resources/musics/index'),
+                    name: 'index',
+                    meta: {title: 'music', index: 3.2}
+                },
+                {
+                    path: '/material',
+                    component: () => import('@/views/resources/material/index'),
+                    name: 'index',
+                    meta: {title: 'material', index:3.3}
+                }
+            ]
+        },
+        {
+            path: '/',
+            component: Layout,
+            redirect: '/errorPath',
+            children: [
+                {
+                    path:'/401',
+                    component: () => import('@/views/error/401'),
+                    name:'401',
+                    meta:{title:'401',index:401}
+                },
+                {
+                    path:'/403',
+                    component: () => import('@/views/error/403'),
+                    name:'403',
+                    meta:{title:'403',index:403}
+                }
+            ]
+        },
+        {
+            path:'/login',
+            component: () => import('@/views/user/login'),
+            name:'login',
+            meta:{title:'login'}
+        }
+    ]
+})

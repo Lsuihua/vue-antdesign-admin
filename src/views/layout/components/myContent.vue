@@ -1,0 +1,51 @@
+<template>
+    <a-layout-content class="main">
+        <my-breadcrumb class="breadcrumb"></my-breadcrumb>
+        <a-layout style="height:100%;">
+            <a-layout-content class="container">
+                <div class="content">
+                    <router-view/>
+                </div>
+            </a-layout-content>
+        </a-layout>
+    </a-layout-content>
+</template>
+
+<script>
+    import myBreadcrumb from './myBreadcrumb'
+    export default {
+        name: "my-content",
+        components:{myBreadcrumb}
+    }
+</script>
+
+<style scoped>
+.main{
+    position: relative;
+    padding-top: 60px;
+    height: 100%;
+    overflow: hidden;
+}
+.breadcrumb{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+}
+.container{
+    background: #FFF;
+    margin:0 20px;
+    padding:20px;
+    height:100%;
+    border-radius:5px;
+}
+.content::-webkit-scrollbar{
+    display: none;
+}
+.content{
+   height: 100%;
+   width: 100%;
+   overflow: hidden scroll;
+   box-sizing: border-box;
+}
+</style>
