@@ -1,5 +1,5 @@
 <template>
-    <div class="breadcrumb">
+    <div class="breadcrumb flex-center">
         <a-icon
                 class="trigger"
                 :type="collapsed ? 'menu-unfold' : 'menu-fold'"
@@ -27,18 +27,15 @@
 </script>
 
 <style scoped>
+    @import "../../../../static/css/common.css";
     .breadcrumb{
         height:60px;
-        /*background: #ddd;*/
     }
     .trigger{
-        font-size:20px;
+        font-size:22px;
         cursor: pointer;
     }
     .trigger,.ant-breadcrumb{
-        float: left;
-        height:60px;
-        line-height:60px;
-        margin-left:30px;
+        margin-left:20px;
     }
 </style>

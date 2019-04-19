@@ -1,6 +1,10 @@
 const user = {
     state:{
-    
+        userInfo:{
+            avatar:'',
+            mobile:'',
+            nickName:''
+        }
     },
     mutations:{
     

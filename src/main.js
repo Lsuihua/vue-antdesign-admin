@@ -6,6 +6,10 @@ import store from './store/index'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
+// 字体 全局样式
+import '../static/font/iconfont.css'
+import '../static/css/common.css'
+
 Vue.use(Antd)
 
 Vue.config.productionTip = false

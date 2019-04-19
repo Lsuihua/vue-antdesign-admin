@@ -13,21 +13,21 @@ const app = {
                     {
                         title:'首页数据配置',
                         key:'1.1',
-                        icon:'user',
+                        icon:'xitongjichuguanli',
                         path:'/homeConfig',
                         children:[]
                     },
                     {
                         title:'菜单设置',
                         key:'1.2',
-                        icon:'user',
+                        icon:'dibucaidan-',
                         path:'/menuConfig',
                         children:[]
                     },
                     {
                         title:'角色设置',
                         key:'1.3',
-                        icon:'user',
+                        icon:'quanxianguanli',
                         path:'/roleConfig',
                         children:[]
                     }
@@ -42,7 +42,7 @@ const app = {
                     {
                         title:'文章管理',
                         key:'2.1',
-                        icon:'user',
+                        icon:'mingxi',
                         path:'/article',
                         children:[
                             {
@@ -71,14 +71,14 @@ const app = {
                     {
                         title:'用户管理',
                         key:'2.2',
-                        icon:'user',
+                        icon:'duoyonghu',
                         path:'/user',
                         children:[]
                     },
                     {
                         title:'活动管理',
                         key:'2.3',
-                        icon:'user',
+                        icon:'duobaozhuanqu-',
                         path:'/event',
                         children:[]
                     },
@@ -122,21 +122,21 @@ const app = {
                     {
                         title:'图片管理',
                         key:'3.1',
-                        icon:'user',
+                        icon:'tupian',
                         path:'/image',
                         children:[]
                     },
                     {
                         title:'素材管理',
                         key:'3.2',
-                        icon:'user',
+                        icon:'shenjing',
                         path:'/material',
                         children:[]
                     },
                     {
                         title:'音乐管理',
                         key:'3.3',
-                        icon:'user',
+                        icon:'yinle',
                         path:'/music',
                         children:[]
                     }

@@ -15,12 +15,12 @@
         >
             <template v-for="item in menuSelect">
                 <a-menu-item v-if="!item.children || item.children.length==0" :data-path="item.path" :data-title="item.title" :key="item.key">
-                    <a-icon :type="item.icon" />
+                    <i :class="['iconfont',item.icon]" />
                     <span>{{item.title}}</span>
                 </a-menu-item>
                 <a-sub-menu v-else :key="item.key" :data-title="item.title">
                     <span slot="title">
-                    <a-icon :type="item.icon" />
+                     <i :class="['iconfont',item.icon]" />
                     {{collapsed ? '':item.title}}
                     </span>
                     <a-menu-item :key="temp.key" v-for="temp in item.children" :data-path="temp.path" :data-title="temp.title">{{temp.title}}</a-menu-item>
@@ -57,7 +57,6 @@
                 setToken('openKeys',JSON.stringify(this.openKeys));
             },
             selectHandle(item){
-                // console.log(item)
                 let url = item.item.$el.dataset.path,
                     key = item.key,
                     title = item.item.$el.dataset.title;
@@ -99,9 +98,15 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
     .ant-layout-sider{
         overflow: hidden scroll;
+    }
+    .iconfont{
+        font-size: 20px;
+        margin-right:6px;
+        transform: translateY(3px);
+        display: inline-block;
     }
     .ant-layout-sider::-webkit-scrollbar {display:none}
     #components-layout-demo-custom-trigger .trigger {
@@ -114,5 +119,20 @@
 
     #components-layout-demo-custom-trigger .trigger:hover {
         color: #1890ff;
+    }
+    .ant-menu-inline-collapsed{
+        li{
+            span{
+                display: none;
+            }
+        }
+        .ant-tooltip--open{
+            i{
+                display: none;
+            }
+        }
+    }
+    .ant-menu-inline-collapsed li span[data-v-7a6ae2de] {
+        display: block;
     }
 </style>

@@ -55,25 +55,25 @@ export default new Router({
                 {
                     path: '/article',
                     component: () => import('@/views/service/articles/index'),
-                    name: 'index',
+                    name: 'article',
                     meta: {title: 'article', index: 2.1}
                 },
                 {
                     path: '/event',
                     component: () => import('@/views/service/events/index'),
-                    name: 'index',
-                    meta: {title: 'event', index: 2.2}
+                    name: 'events',
+                    meta: {title: 'events', index: 2.2}
                 },
                 {
                     path: '/user',
                     component: () => import('@/views/service/users/index'),
-                    name: 'index',
+                    name: 'user',
                     meta: {title: 'user', index: 2.3}
                 },
                 {
                     path: '/store',
                     component: () => import('@/views/service/stores/index'),
-                    name: 'index',
+                    name: 'store',
                     meta: {title: 'store', index: 2.4}
                 }
             ]
@@ -86,19 +86,19 @@ export default new Router({
                 {
                     path: '/image',
                     component: () => import('@/views/resources/imgs/index'),
-                    name: 'index',
+                    name: 'image',
                     meta: {title: 'image', index: 3.1}
                 },
                 {
                     path: '/music',
                     component: () => import('@/views/resources/musics/index'),
-                    name: 'index',
+                    name: 'music',
                     meta: {title: 'music', index: 3.2}
                 },
                 {
                     path: '/material',
                     component: () => import('@/views/resources/material/index'),
-                    name: 'index',
+                    name: 'material',
                     meta: {title: 'material', index:3.3}
                 }
             ]

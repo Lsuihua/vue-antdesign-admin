@@ -2,7 +2,7 @@
     <div>
         <img class="avatar" src="../../../../static/img/avatar.gif" @click="showDrawer">
         <a-drawer
-                title="Basic Drawer"
+                title="基本信息设置"
                 placement="right"
                 :closable="false"
                 @close="onClose"
@@ -11,6 +11,7 @@
             <p>Some contents...</p>
             <p>Some contents...</p>
             <p>Some contents...</p>
+            <a-button type="danger" class="logout-btn" @click="logoutHandle">退出登录</a-button>
         </a-drawer>
     </div>
 
@@ -30,17 +31,27 @@
             },
             onClose() {
                 this.visible = false
+            },
+            logoutHandle(){
+                this.visible = false
             }
         }
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
     .avatar{
         width: 100%;
         height:100%;
         position: absolute;
         top:0;
         left: 0;
+    }
+    .logout-btn{
+        position: absolute;
+        bottom: 4%;
+        width:50%;
+        left: 50%;
+        transform: translate(-50%,0);
     }
 </style>

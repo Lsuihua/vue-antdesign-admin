@@ -1,6 +1,7 @@
 <template>
     <div>
-        <a-table :rowSelection="rowSelection" :dataSource="tableData" :columns="columns">
+        <!--表格-->
+        <a-table :dataSource="tableData" :pagination="pagination" :columns="columns">
             <div slot="filterDropdown" slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
                  class='custom-filter-dropdown'>
                 <a-input
@@ -48,14 +49,14 @@
                 <a-tag color="blue">{{role}}</a-tag>
             </template>
             <!--方法-->
-            <span slot="action" slot-scope="text, record">
-          <a href="javascript:;">修改</a>
-          <a-divider type="vertical"/>
-          <a href="javascript:;">删除</a>
-          <a-divider type="vertical"/>
-          <a href="javascript:;">设置</a>
-        </span>
-
+            <template slot="action" slot-scope="text, record">
+                <a-popconfirm
+                        v-if="tableData.length"
+                        title="Sure to delete?"
+                        @confirm="() => onDelete(record.key)">
+                    <a href="javascript:;">Delete</a>
+                </a-popconfirm>
+            </template>
         </a-table>
     </div>
 
@@ -63,7 +64,7 @@
 
 <script>
     export default {
-        name: "index",
+        name: "users",
         data () {
             return {
                 tableData: [
@@ -99,11 +100,37 @@
                         role: '游客',
                         gender: '男',
                         time: '17:41',
+                    },
+                    {
+                        key: '5',
+                        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                        name: 'Jim Red',
+                        mobile: 13812345678,
+                        role: '游客',
+                        gender: '男',
+                        time: '17:41',
+                    },
+                    {
+                        key: '6',
+                        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                        name: 'Jim Red',
+                        mobile: 13812345678,
+                        role: '游客',
+                        gender: '男',
+                        time: '17:41',
+                    },
+                    {
+                        key: '7',
+                        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                        name: 'Jim Red',
+                        mobile: 13812345678,
+                        role: '游客',
+                        gender: '男',
+                        time: '17:41',
                     }
                 ],
                 searchText: '',
                 searchInput: null,
-                selectedRowKeys: [],
                 columns: [
                     {
                         title: 'Avatar',
@@ -153,7 +180,23 @@
                         scopedSlots: {customRender: 'action'},
                     },
                 ],
-                pagination: false
+                pagination: {
+                    showSizeChanger:true,
+                    hideOnSinglePage:true,
+                    pageSizeOptions:['10','20','30','40'],
+                    pageSize:20,
+                    current:1,
+                    total:100,
+                    onChange: (page) => {
+                        console.log(page);
+                        this.$set(this.pagination,'current',page)
+                    },
+                    onShowSizeChange:(current, size)=>{
+                        console.log(current, size)
+                        this.$set(this.pagination,'pageSize',size)
+                    },
+                    showTotal:total => `${total} 条`,
+                }
             }
         },
         methods: {
@@ -161,67 +204,22 @@
                 confirm()
                 this.searchText = selectedKeys[0]
             },
-            onSelectChange (selectedRowKeys) {
-                console.log('selectedRowKeys changed: ', selectedRowKeys);
-                this.selectedRowKeys = selectedRowKeys
-            },
             handleReset (clearFilters) {
                 clearFilters()
                 this.searchText = ''
             },
-        },
-        computed: {
-            rowSelection () {
-                const {selectedRowKeys} = this;
-                return {
-                    selectedRowKeys,
-                    onChange: this.onSelectChange,
-                    hideDefaultSelections: true,
-                    selections: [{
-                        key: 'all-data',
-                        text: 'Select All Data',
-                        onSelect: () => {
-                            this.selectedRowKeys = [...Array(46).keys()]; // 0...45
-                        },
-                    }, {
-                        key: 'odd',
-                        text: 'Select Odd Row',
-                        onSelect: (changableRowKeys) => {
-                            let newSelectedRowKeys = [];
-                            newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-                                if (index % 2 !== 0) {
-                                    return false;
-                                }
-                                return true;
-                            });
-                            this.selectedRowKeys = newSelectedRowKeys;
-                        },
-                    }, {
-                        key: 'even',
-                        text: 'Select Even Row',
-                        onSelect: (changableRowKeys) => {
-                            let newSelectedRowKeys = [];
-                            newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-                                if (index % 2 !== 0) {
-                                    return true;
-                                }
-                                return false;
-                            });
-                            this.selectedRowKeys = newSelectedRowKeys;
-                        },
-                    }],
-                    onSelection: this.onSelection,
-                }
-            }
-        },
-        watch: {
-            pageSize (val) {
-                console.log('pageSize', val);
+            onShowSizeChange(current, pageSize){
+                this.pageData.pageSize = pageSize
             },
-            current (val) {
-                console.log('current', val);
+            onChange(page, pageSize){
+                console.log(page, pageSize)
+            },
+            //删除项
+            onDelete(key){
+                const dataSource = [...this.tableData]
+                this.tableData = dataSource.filter(item => item.key !== key)
             }
-        },
+        }
     }
 </script>
 

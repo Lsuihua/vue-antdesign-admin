@@ -1,0 +1,51 @@
+.flex-center{
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+.flex-between-center{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    -webkit-justify-content:space-between;
+    -webkit-align-items: center;
+}
+
+.box-sizing{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.line-overflow{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.line-tow-overflow{
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp:2;
+    -webkit-box-orient: vertical;
+}
+
+.ant-pagination{
+    /*text-align: center;*/
+}
+
+.login,.register{
+    background:#29659a;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.login-form,.register-form{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform:translate(-50%,-50%);
+}
