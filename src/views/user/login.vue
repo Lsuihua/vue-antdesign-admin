@@ -50,6 +50,11 @@
 <script>
     export default {
         name: "login",
+        mounted:function(){
+            window.onmouseup = ()=>{
+                this.onmouseup()
+            }
+        },
         data(){
             return{
                 checkOn:false,
@@ -73,10 +78,11 @@
             dragMoveHandle(){
                 window.onmousemove= e =>{
                     if(!this.checkOn || this.success) return
-                   this.moveX = e.clientX - this.startsX
-                   this.checkWidth();
+                    let offsetX = e.clientX - this.startsX
+                    if(offsetX <=0)return
+                    this.moveX = offsetX
+                    this.checkWidth()
                 }
-
             },
             checkWidth(){
                 let dbWidth = document.querySelector('.drag-check').clientWidth,
@@ -145,7 +151,7 @@
                 height: 100%;
             }
             .drag-bg{
-                background:#59ea00;
+                background:#1de406;
                 z-index: 1;
             }
             .text{
@@ -179,7 +185,7 @@
                 height: 45px;
             }
             .wechat-btn{
-                background: #26ca13;
+                background: #1de406;
                 color: #fff;
                 border: none;
             }
