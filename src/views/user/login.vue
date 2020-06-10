@@ -12,7 +12,7 @@
                     v-decorator="[
                         'username',
                         {
-                          rules: [{ required: true,pattern:/^[a-zA-Z]\w{1,29}$/i, message: 'Username is required!' }],
+                          rules: [{ required: true,pattern:/^[a-zA-Z0-9]\w{1,29}$/i, message: '至少输入两位字符' }],
                         }]"
                 />
                 <i class="iconfont yonghu"></i>
@@ -22,7 +22,7 @@
                          v-decorator="[
                         'password',
                         {
-                          rules: [{ required: true, min:'6',pattern:/^[a-zA-Z]\w{5,17}$/i, message: 'Password is required!' }]
+                          rules: [{ required: true, min:'6',pattern:/^[a-zA-Z0-9]\w{5,17}$/i, message: '请输入6-18位非特殊字符' }]
                         }]"
                 />
                 <i class="iconfont mima"></i>
@@ -158,6 +158,7 @@
                 width: 100%;
                 text-align: center;
                 z-index: 2;
+                color:#8e8e8e;
             }
             .success{
                 color: #fff;

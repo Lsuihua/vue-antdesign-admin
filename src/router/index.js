@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-import Layout from '@/views/layout/index'
+import Layout from '@/views/Layout'
 
 export default new Router({
     mode: 'history',
@@ -12,20 +12,7 @@ export default new Router({
         {
             path:'/',
             component: Layout,
-            redirect: 'dashboard',
-            children:[
-                {
-                    path:'/dashboard',
-                    component: () => import('@/views/dashboard/index'),
-                    name:'index',
-                    meta:{title:'dashboard',index:0}
-                }
-            ]
-        },
-        {
-            path:'/',
-            component: Layout,
-            redirect: '/system',
+            redirect: '/homeConfig',
             children:[
                 {
                     path: '/homeConfig',
@@ -50,7 +37,7 @@ export default new Router({
         {
             path:'/',
             component: Layout,
-            redirect: '/service',
+            redirect: '/article',
             children:[
                 {
                     path: '/article',
@@ -81,7 +68,7 @@ export default new Router({
         {
             path:'/',
             component: Layout,
-            redirect: '/assets',
+            redirect: '/image',
             children:[
                 {
                     path: '/image',
@@ -106,19 +93,25 @@ export default new Router({
         {
             path: '/',
             component: Layout,
-            redirect: '/errorPath',
+            redirect: '/403',
             children: [
                 {
-                    path:'/401',
-                    component: () => import('@/views/error/401'),
-                    name:'401',
-                    meta:{title:'401',index:401}
-                },
-                {
                     path:'/403',
-                    component: () => import('@/views/error/403'),
+                    component: () => import('@/views/errorPage/403'),
                     name:'403',
                     meta:{title:'403',index:403}
+                },
+                {
+                    path:'/404',
+                    component: () => import('@/views/errorPage/404'),
+                    name:'404',
+                    meta:{title:'404',index:404}
+                },
+                {
+                    path:'/500',
+                    component: () => import('@/views/errorPage/500'),
+                    name:'500',
+                    meta:{title:'500',index:500}
                 }
             ]
         },

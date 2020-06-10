@@ -1,3 +1,4 @@
+
 <template>
     <a-tabs @change="callback" type="card">
         <a-tab-pane :tab="item.text" :key="index" v-for="(item,index) in tabList">

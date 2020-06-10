@@ -1,56 +1,66 @@
-import Vue from 'vue'
+/*
+  request
+ */
+
 import axios from 'axios'
-import store from '@/store'
-
-// 创建 axios 实例
-const service = axios.create({
-  baseURL: '/api', // api base_url
-  timeout: 10000 // 请求超时时间
+import Router from '@/router'
+import {Notify, Toast, Dialog } from 'vant'
+import {getCookieToken,removeCookieToken} from '@/utils/auth'
+import router from '../router'
+const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
+const https = axios.create({
+  // baseURL:'/wbs/api/', //线上
+  baseURL: IS_PROD ? '/' : '/wbs/api', // 切换开发环境
+  timeout:100000,
+  responseType:'json',
+  headers:{
+    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+  },
 })
-
-const err = (error) => {
-  if (error.response) {
-    // const data = error.response.data
-    // const token = Vue.ls.get(ACCESS_TOKEN)
-    if (error.response.status === 403) {
-      // notification.error({ message: 'Forbidden', description: data.message})
-    }
-    if (error.response.status === 401) {
-      // notification.error({ message: 'Unauthorized', description: 'Authorization verification failed' })
-      // if (token) {
-      //   store.dispatch('Logout').then(() => {
-      //     setTimeout(() => {
-      //       window.location.reload()
-      //     }, 1500)
-      //   })
-      // }
-    }
+https.interceptors.request.use(
+  config =>{
+    Toast.loading({
+      duration: 0,
+      mask: true,
+      // message: '加载中...'
+    })
+    return config
+  },
+  error => {
+    return Promise.reject(error)
   }
-  return Promise.reject(error)
-}
+)
 
-// request interceptor
-service.interceptors.request.use(config => {
-  // const token = Vue.ls.get(ACCESS_TOKEN)
-  if (token) {
-    config.headers[ 'Access-Token' ] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
+https.interceptors.response.use(
+  response => {
+    // console.log(response)
+      Toast.clear()
+      if (response.data.flag === 2) {
+        Dialog.confirm({
+          title: '提示',
+          message: '登录超时，是否重新登录？'
+        }).then(() => {
+          Router.push({path: '/signUp'})
+        });
+      }else if(response.data.flag !== 1){
+          Notify({
+              message:response.data.data,
+              duration: 1000,
+              background: '#fb2c60'
+          });
+      }
+    return response
+  },
+  error => {
+      Toast.clear()
+      if(error.data.data){
+          Notify({
+              message:error.data.data,
+              duration: 1000
+          });
+      }
+    return Promise.reject(error)
   }
-  return config
-}, err)
+)
 
-// response interceptor
-service.interceptors.response.use((response) => {
-    return response.data
-  }, err)
-
-const installer = {
-  // vm: {},
-  // install (Vue, router = {}) {
-    // Vue.use(VueAxios, router, service)
-  // }
-}
-
-export {
-  installer as VueAxios,
-  service as axios
-}
+export default https

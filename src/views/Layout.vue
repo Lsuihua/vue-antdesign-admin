@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import myHeader from './components/myHeader';
-    import mySilder from './components/mySider';
-    import myContent from './components/myContent';
+    import myHeader from '@/components/myHeader';
+    import mySilder from '@/components/mySider';
+    import myContent from '@/components/myContent';
     export default {
         name: "index",
         components:{myHeader,mySilder,myContent}
@@ -18,7 +18,7 @@
 
 <style scoped>
 #components-layout-demo-custom-trigger{
-    padding-top: 64px;
+    padding-top: 60px;
     box-sizing: border-box;
     height: 100vh;
     overflow: hidden;

@@ -32,7 +32,7 @@
 
 <script>
     import {mapGetters } from 'vuex'
-    import { setToken} from "../../../utils/auth";
+    import { setToken} from "@/utils/auth";
 
     export default {
         name: "my-sider",
