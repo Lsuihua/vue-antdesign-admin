@@ -11,7 +11,7 @@
     import mySilder from '@/components/mySider';
     import myContent from '@/components/myContent';
     export default {
-        name: "index",
+        name: "layout",
         components:{myHeader,mySilder,myContent}
     }
 </script>

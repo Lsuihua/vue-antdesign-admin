@@ -10,10 +10,16 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'homeConfig',
+     *  name:'homeConfig'
+     * })
+     */
     import homeDataConfig from './components/homeDataConfig';
     import bannerConfig from './components/bannerConfig';
     export default {
-        name: "home-config",
+        name: "homeConfig",
         components:{homeDataConfig,bannerConfig},
         data(){
             return{

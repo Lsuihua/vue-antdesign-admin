@@ -3,8 +3,14 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'menuConfig',
+     *  name:'menuConfig'
+     * })
+     */
     export default {
-        name: "menu-config"
+        name: "menuConfig"
     }
 </script>
 

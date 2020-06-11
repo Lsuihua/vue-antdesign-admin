@@ -27,8 +27,14 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'event',
+     *  name:'event'
+     * })
+     */
     export default {
-        name: "events",
+        name: "event",
         mounted:function(){
             for (let i = 0; i < 23; i++) {
                 this.listData.push({

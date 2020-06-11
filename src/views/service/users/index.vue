@@ -63,8 +63,14 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'user',
+     *  name:'user'
+     * })
+     */
     export default {
-        name: "users",
+        name: "user",
         data () {
             return {
                 tableData: [

@@ -3,8 +3,14 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'music',
+     *  name:'music',
+     * })
+     */
     export default {
-        name: "musics"
+        name: "music"
     }
 </script>
 

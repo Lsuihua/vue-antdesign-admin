@@ -123,7 +123,7 @@ const app = {
                         title:'图片管理',
                         key:'3.1',
                         icon:'tupian',
-                        path:'/image',
+                        path:'/imgs',
                         children:[]
                     },
                     {
@@ -152,7 +152,7 @@ const app = {
                         title:'图片管理',
                         key:'4.1',
                         icon:'user',
-                        path:'/image',
+                        path:'/imgs',
                         children:[]
                     },
                     {

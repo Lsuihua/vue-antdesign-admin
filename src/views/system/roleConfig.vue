@@ -60,8 +60,14 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'roleConfig',
+     *  name:'roleConfig'
+     * })
+     */
     export default {
-        name: "role-config",
+        name: "roleConfig",
         data () {
             return {
                 tableData: [

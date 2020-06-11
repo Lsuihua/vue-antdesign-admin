@@ -3,8 +3,14 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'store',
+     *  name:'store'
+     * })
+     */
     export default {
-        name: "stores"
+        name: "store"
     }
 </script>
 
