@@ -1,3 +1,6 @@
+import error403 from "../views/errorPage/403.vue";
+import error404 from "../views/errorPage/404.vue";
+import error500 from "../views/errorPage/500.vue";
 import imgs from "../views/resources/imgs/index.vue";
 import material from "../views/resources/material/index.vue";
 import music from "../views/resources/musics/index.vue";
@@ -10,6 +13,24 @@ import menuConfig from "../views/system/menuConfig.vue";
 import roleConfig from "../views/system/roleConfig.vue";
 
 export default [
+  {
+    path: 'error403',
+    name: '403',
+    alias: '403',
+    component: error403,
+  },
+  {
+    path: 'error404',
+    name: '404',
+    alias: '404',
+    component: error404,
+  },
+  {
+    path: 'error500',
+    name: '500',
+    alias: '500',
+    component: error500,
+  },
   {
     path: 'imgs',
     name: 'imgs',

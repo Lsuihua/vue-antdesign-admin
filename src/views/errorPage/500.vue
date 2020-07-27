@@ -3,6 +3,13 @@
 </template>
 
 <script>
+    /**
+     * @route({
+     *  path:'error500',
+     *  name:'500',
+     *  alias:'500',
+     * })
+     */
     export default {
         name: "500"
     }
