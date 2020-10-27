@@ -40,7 +40,7 @@
             <template v-else>{{text}}</template>
         </template>
         <!--头像-->
-        <template slot="avatar" slot-scope="avatar">
+        <template slot="avatar" slot-scope="avatar"   columnWidth="50px">
             <a-avatar :src="avatar"/>
         </template>
         <!--角色-->
@@ -139,7 +139,7 @@
                         title: 'Avatar',
                         dataIndex: 'avatar',
                         key: 'avatar',
-                        scopedSlots: {customRender: 'avatar'},
+                        scopedSlots: {customRender: 'avatar'}
                     },
                     {
                         title: 'Name',

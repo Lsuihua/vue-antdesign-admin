@@ -31,10 +31,6 @@
     -webkit-box-orient: vertical;
 }
 
-.ant-pagination{
-    /*text-align: center;*/
-}
-
 .login,.register{
     background:#29659a;
     width: 100%;
@@ -49,3 +45,165 @@
     transform: translate(-50%,-50%);
     -webkit-transform:translate(-50%,-50%);
 }
+
+/*  =======  color ======== */
+.main-color{
+    color:#303133;
+}
+.content-color{
+    color: #606266;;
+}
+.tips-color{
+    color:#909399;
+}
+.light-color{
+    color:#c0c4cc;
+}
+.border-color{
+    color:#e4e7ed;
+} 
+.bg-color{
+    color: #f3f4f6;
+}
+
+.primary{
+    color: #2979ff;
+}
+.primary-light{
+    color: #ecf5ff;
+}
+.primary-disabled{
+    color: #a0cfff;
+} 
+.primary-dark{
+    color: #2b85e4;
+}
+
+.warning{
+    color: #ff9900;
+}
+.warning-disabled{
+    color: #fcbd71;
+}
+.warning-dark{
+    color: #f29100;
+}
+.warning-light{
+    background: #fdf6ec;
+}
+
+.success{
+    color: #19be6b;
+}
+.success-disabled{
+    color: #71d5a1;
+}
+.success-dark{
+    color: #18b566;
+}
+.success-light{
+    color: #dbf1e1;
+}
+
+.error{
+    color: #fa3534;
+} 
+.error-disabled{
+    color: #fab6b6;
+}  
+.error-dark{
+    color: #dd6161;
+}  
+.error-light{
+    color: #fef0f0;
+} 
+
+.info{
+    color: #909399;
+} 
+.info-disabled{
+    color: #c8c9cc;
+} 
+.info-dark{
+    color: #82848a;
+} 
+.info-light{
+    color: #f4f4f5;
+}
+
+/* =====  backgurand  ======*/
+
+.primary-bg{
+    background: #2979ff;
+    color: #fff;
+}
+.primary-light-bg{
+    background: #ecf5ff;
+}
+.primary-disabled-bg{
+    background: #a0cfff;
+} 
+.primary-dark-bg{
+    background: #2b85e4;
+    color: #fff;
+}
+
+.warning-bg{
+    background: #ff9900;
+    color: #fff;
+}
+.warning-disabled-bg{
+    background: #fcbd71;
+}
+.warning-dark-bg{
+    background: #f29100;
+    color: #fff;
+}
+.warning-light-bg{
+    background: #fdf6ec;
+}
+
+.success-bg{
+    background: #19be6b;
+    color: #fff;
+}
+.success-disabled-bg{
+    background: #71d5a1;
+}
+.success-dark-bg{
+    background: #18b566;
+    color: #fff;
+}
+.success-light-bg{
+    background: #dbf1e1;
+}
+
+.error-bg{
+    background: #fa3534;
+    color: #fff;
+} 
+.error-disabled-bg{
+    background: #fab6b6;
+}  
+.error-dark-bg{
+    background: #dd6161;
+    color: #fff;
+}  
+.error-light-bg{
+    background: #fef0f0;
+} 
+
+.info-bg{
+    background: #909399;
+    color: #fff;
+} 
+.info-disabled-bg{
+    background: #c8c9cc;
+} 
+.info-dark-bg{
+    background: #82848a;
+    color: #fff;
+} 
+.info-light-bg{
+    background: #f4f4f5;
+}  

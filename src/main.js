@@ -6,7 +6,7 @@ import store from './store/index'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
-import './mock'
+import './mock/index.js'
 
 // 字体 全局样式
 import '../static/font/iconfont.css'

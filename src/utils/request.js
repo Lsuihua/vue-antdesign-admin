@@ -4,9 +4,8 @@
 
 import axios from 'axios'
 import Router from '@/router'
-import {Notify, Toast, Dialog } from 'vant'
+// import {Notify, Toast, Dialog } from 'vant'
 import {getCookieToken,removeCookieToken} from '@/utils/auth'
-import router from '../router'
 const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 const https = axios.create({
   // baseURL:'/wbs/api/', //线上
@@ -22,7 +21,7 @@ https.interceptors.request.use(
     Toast.loading({
       duration: 0,
       mask: true,
-      // message: '加载中...'
+      message: '加载中...'
     })
     return config
   },
@@ -33,7 +32,6 @@ https.interceptors.request.use(
 
 https.interceptors.response.use(
   response => {
-    // console.log(response)
       Toast.clear()
       if (response.data.flag === 2) {
         Dialog.confirm({

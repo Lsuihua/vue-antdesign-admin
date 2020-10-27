@@ -7,7 +7,10 @@
                 <div class="show-model model-item">
                     <span>当前显示：</span>
                     <div class="show-item">
-                        <span v-for="(item,index) in showModelList" :key="index">{{item.text}}</span>
+                        <div class="item-box" v-for="(item,index) in showModelList" :key="index">
+                            <a-icon :class="['icon',item.bg]" :type="item.icon" />
+                            <span class="text">{{item.text}}</span>
+                        </div>
                     </div>
                 </div>
                 <!--全部模块-->
@@ -38,33 +41,38 @@
                 selectOptions:[],
                 allModel:[
                     {
-                        icon:'',
+                        icon:'picture',
                         text:'轮播图',
                         value:'0',
-                        checked:true
+                        checked:true,
+                        bg:'primary-bg'
                     },
                     {
-                        icon:'',
+                        icon:'bars',
                         text:'分类',
                         value:'1',
-                        checked:false
+                        checked:false,
+                        bg:'primary-bg'
                     },
                     {
-                        icon:'',
+                        icon:'bell',
                         text:'消息',
                         value:'2',
-                        checked:false
+                        checked:false,
+                        bg:'primary-bg'
                     },
                     {
-                        icon:'',
+                        icon:'block',
                         text:'功能',
-                        value:'3'
+                        value:'3',
+                        bg:'primary-bg'
                     },
                     {
-                        icon:'',
+                        icon:'ellipsis',
                         text:'其他',
                         value:'4',
-                        checked:false
+                        checked:false,
+                        bg:'primary-bg'
                     }
                 ]
             }
@@ -93,8 +101,26 @@
     }
     .show-model{
         display: flex;
-        .show-item span{
-            margin:0 10px;
+        .show-item {
+            &>.item-box:not(:last-child){
+                margin-right: 10px;
+            }
+            .item-box{
+                display: inline-block;
+                text-align: center;
+                .icon{
+                    border-radius: 50%;
+                    display: block;
+                    height:36px;
+                    width:36px;
+                    line-height:42px;
+                    margin-bottom:2px;
+                    font-size:18px;
+                }
+                .text{
+                    font-size: 12px;
+                }
+            }
         }
     }
 </style>
