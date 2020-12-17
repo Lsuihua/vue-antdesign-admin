@@ -4,15 +4,22 @@ const Mock = require('mockjs')
 const Random = Mock.Random
 
 // 登录
-export function login() {
-    return {
-        url: '/login',
-        type: 'post',
-        data: {
-        "code": 1,
-        "msg": "登录成功"
+export function login(data) {
+    return new Promise((resolve,reject) =>{
+        // 验证登录数据  返回结果
+        if(data.username === 'admin' && data.password == '123456'){
+            resolve({
+                code :1,
+                message:'登录成功',
+                token:Random.word(26)
+            })
+        }else{
+            reject({
+                code:0,
+                message:'用户名或密码错误'
+            })
         }
-    }
+    })
 }
 
 // 登出
@@ -60,5 +67,5 @@ const createUser = function (req){
 }
 
 
-Mock.mock('/user-lists', 'GET、POST',getUserList);
-Mock.mock('/create-user', createUser);
+
+

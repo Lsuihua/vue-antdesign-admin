@@ -300,9 +300,13 @@ const app = {
         menuSelect:[],
         defaultMenuKey:JSON.parse(getToken('menuDfKey')) || [],
         openKey:JSON.parse(getToken('openKeys')) || [],
-        breadcrumb:JSON.parse(getToken('breadCrumb')) || []
+        breadcrumb:JSON.parse(getToken('breadCrumb')) || [],
+        token:''
     },
     mutations:{
+        SAVE_TOKEN(state,token){
+            state.token = token
+        },
         CHANGE_COLLAPSED(state,collapsed){
             state.collapsed = collapsed
         },
@@ -351,6 +355,9 @@ const app = {
         },
         SAVE_OPEN_KEY({commit},state){
             commit('SAVE_OPEN_KEY',state)
+        },
+        SAVE_TOKEN({commit},state){
+            commit('SAVE_TOKEN',state)
         }
     }
 }

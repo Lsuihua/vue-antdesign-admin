@@ -4,9 +4,6 @@
                 class="login-form"
                 :form="form"
                 @submit="handleSubmit">
-            <a-form-item :wrapper-col="{ span: 8,offset:8}">
-                <img class="logo" src="../../../static/img/avatar.gif" alt="">
-            </a-form-item>
             <a-form-item has-feedback>
                 <a-input placeholder="请输入账号"
                     v-decorator="[
@@ -38,16 +35,13 @@
             <a-form-item :wrapper-col="{ span: 24}">
                 <a-button :disabled="!success" block size="large" class="submit" type="primary" html-type="submit">登录</a-button>
             </a-form-item>
-
-            <a-form-item class="other-logins">
-                <a-button size="large" class="btn wechat-btn" type="default" shape="circle" icon="wechat"></a-button>
-                <a-button size="large" class="btn qq-btn" type="primary" shape="circle" icon="qq"></a-button>
-            </a-form-item>
         </a-form>
     </div>
 </template>
 
 <script>
+    import {login} from '@/mock/user'
+    import {setToken} from '@/utils/auth'
     export default {
         name: "login",
         mounted:function(){
@@ -67,11 +61,27 @@
             }
         },
         methods:{
+            // 登录
             handleSubmit (e) {
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         console.log(values);
+                        login(values).then(res => {
+                            // 登录成功  前往目标页面
+                            this.$notification.success({
+                                message: res.message,
+                                duration:2
+                            });
+                            this.$store.dispatch('SAVE_TOKEN',res.token);
+                            setToken('token',res.token);
+                            this.$router.push('/homeConfig');
+                        }).catch(e =>{
+                            this.$notification.error({
+                                message: e.message,
+                                duration:1.5
+                            });
+                        })
                     }
                 });
             },
@@ -93,7 +103,6 @@
                     this.success = true;
                     this.dragText = '解锁成功'
                 }
-
             },
             onmousedown(e){
                 this.checkOn = true;
@@ -112,9 +121,13 @@
 
 <style lang="less">
     .login-form{
+        background: #ffffff;
+        padding: 26px;
+        box-sizing: border-box;
+        border-radius: 18px;
         width: 25%;
-        .logo{
-            width: 100%;
+        &>.ant-form-item:last-child{
+            margin-bottom: 0;
         }
         .ant-form-item-control{
             .ant-form-item-children{
@@ -151,7 +164,7 @@
                 height: 100%;
             }
             .drag-bg{
-                background:#1de406;
+                background:#52c41a;
                 z-index: 1;
             }
             .text{
@@ -174,21 +187,6 @@
                 -webkit-user-select:none;
                 user-select:none;
                 box-shadow: 0 2px 4px rgba(0,0,0,.2);
-            }
-        }
-        .other-logins{
-            display: flex;
-            margin-top: 40px;
-            justify-content: space-evenly;
-            .btn{
-                margin:0 40px;
-                width: 45px;
-                height: 45px;
-            }
-            .wechat-btn{
-                background: #1de406;
-                color: #fff;
-                border: none;
             }
         }
     }
