@@ -1,8 +1,8 @@
 <template>
     <a-layout id="components-layout-demo-custom-trigger">
-        <my-header></my-header>
-        <my-silder></my-silder>
-        <my-content></my-content>
+        <my-header/>
+        <my-silder/>
+        <my-content/>
     </a-layout>
 </template>
 

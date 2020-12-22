@@ -1,11 +1,10 @@
 <template>
-    <div>
+    <div class="event-list">
         <a-list
                 itemLayout="vertical"
                 size="large"
                 :pagination="pagination"
                 :dataSource="listData">
-            <div slot="footer"><b>ant design vue</b> footer part</div>
             <a-list-item slot="renderItem" slot-scope="item, index" key="item.title">
                 <template v-if="!loading" slot="actions" v-for="{type, text} in actions">
                     <span :key="type">
@@ -78,5 +77,9 @@
 </script>
 
 <style scoped>
-
+    .event-list{
+        background-color: #fff;
+        box-sizing: border-box;
+        padding: 0 14px 20px;
+    }
 </style>
