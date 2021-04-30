@@ -1,6 +1,7 @@
 const VueRouteWebpackPlugin = require("@xiyun/vue-route-webpack-plugin");
 
 module.exports = {
+  // mode: "development",
   publicPath: "/",
   outputDir: "dist",
   assetsDir: "static",
@@ -16,21 +17,21 @@ module.exports = {
     modules: false // 启用 CSS modules for all css / pre-processor files.
   },
   pwa:{}, // PWA 插件相关配置 see https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
-  devServer:{
-    host: 'localhost',
-    port: 8080,
-    https: true,
-    proxy:{  // 代理
-      '/api': {
-        target: "http://app.rmsdmedia.com",
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: {
-          "^/api": ""
-        }
-      },
-    }
-  },
+  // devServer:{
+  //   host: 'localhost',
+  //   port: 8080,
+  //   https: true,
+  //   proxy:{  // 代理
+  //     '/api': {
+  //       target: "http://app.rmsdmedia.com",
+  //       changeOrigin: true,
+  //       secure: false,
+  //       pathRewrite: {
+  //         "^/api": ""
+  //       }
+  //     },
+  //   }
+  // },
   configureWebpack: {
     plugins: [
       new VueRouteWebpackPlugin({
