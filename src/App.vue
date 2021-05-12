@@ -16,12 +16,21 @@ const db = app.database();
 export default {
   name: 'app',
   mounted(){
-    console.log("挂载")
+    if(!this.token){
+      // 未登陆 去登陆
+      return this.$router.push('/login');
+    }
+    
     db.collection("configs").where(
       {_id:'d5b22d996089096700018d785236abcb'}
     ).get().then(res => {
       console.log('结果===>',res)
     });
+  },
+  computed:{
+    token(){
+      return this.$store.state.token
+    }
   }
 }
 </script>

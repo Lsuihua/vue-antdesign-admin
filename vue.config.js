@@ -1,4 +1,5 @@
 const VueRouteWebpackPlugin = require("@xiyun/vue-route-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
   // mode: "development",
@@ -7,6 +8,15 @@ module.exports = {
   assetsDir: "static",
   indexPath: "index.html",
   productionSourceMap: false,
+  // module:{
+  //   rules:[
+  //     {
+  //       test:/\.js$/,
+  //       enforce:'pre',
+  //       use:['source-map-loader']
+  //     }
+  //   ],
+  // },
   css: {
     extract: true, // 是否使用css分离插件 ExtractTextPlugin
     sourceMap: false, // 开启 CSS source maps?
@@ -44,6 +54,9 @@ module.exports = {
         // 生成的文件中的 import 路径是否使用双引号规范，默认使用
         // 注意：生成的路由文件中的 path 的引号是原封不动使用用户的
         doubleQoute: true,
+      }),
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": JSON.stringify("development")
       })
     ],
   }
