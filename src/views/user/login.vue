@@ -13,7 +13,6 @@
                   rules: [
                     {
                       required: true,
-                      pattern: /^[a-zA-Z0-9]\w{1,29}$/i,
                       message: '至少输入两位字符'
                     }
                   ]
@@ -88,8 +87,12 @@
 </template>
 
 <script>
-import { login } from '@/mock/user'
 import { setToken } from '@/utils/auth'
+const app = cloudbase.init({
+  env: "dev-serve-7g46wttx6ced4f15",
+  region: "ap-guangzhou"
+});
+const auth = app.auth();
 export default {
   name: 'login',
   mounted: function () {
@@ -126,7 +129,23 @@ export default {
   },
   methods: {
     quickHandle(item){
-      this.visible = true
+      console.log(item)
+      // this.visible = true
+      if(item.type == 'wechat'){
+        const provider = auth.weixinAuthProvider({
+          appid: "wx3ac5d72d508f6a26",
+          scope: "snsapi_login"
+        });
+        provider.signInWithRedirect();
+        provider.getRedirectResult().then((loginState) => {
+          console.log(loginState)
+          if (loginState) {
+            // 登录成功！
+          }
+        });
+      }else if(item.type == 'qq'){
+
+      }
     },
     hideModal(){
      this.visible = false
@@ -137,23 +156,65 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log(values)
-          login(values)
-            .then(res => {
-              // 登录成功  前往目标页面
-              this.$notification.success({
-                message: res.message,
-                duration: 2
-              })
-              this.$store.dispatch('SAVE_TOKEN', res.token)
-              setToken('token', res.token)
-              this.$router.push('/homeConfig')
-            })
-            .catch(e => {
+          const {username, password} = values
+
+          // 检查用户存在
+          auth.isUsernameRegistered(username).then((registered) => {
+            console.log(registered)
+            if(registered){
               this.$notification.error({
-                message: e.message,
+                message:'该用户名已存在，请重新输入',
                 duration: 1.5
               })
-            })
+              // 重置表单
+              this.success = false
+              this.checkOn = false
+              this.dragText='请拖动滑块解锁'
+              this.moveX= 0
+              this.startsX= 0
+              this.distance=0
+              this.form.resetFields()
+            }else{
+              // auth.signInWithUsernameAndPassword(username, password).then((loginState) => {
+              //   console.log(loginState)
+              //   // 用户名密码登录成功
+              // }).cath((err)=>{
+              //   console.log(err)
+              // });
+              // auth.signUpWithEmailAndPassword(username, password)
+              // .then((loginState) => {
+              //   console.log(loginState)
+              //   // 发送验证邮件成功
+              //   this.$notification.error({
+              //     message:'发送验证邮件成功,请前往激活',
+              //     duration: 1.5
+              //   })
+              // });
+              auth.signInWithEmailAndPassword(username, password)
+              .then((loginState) => {
+                console.log(loginState)
+                // 登录成功
+              });
+            }
+          });
+          
+          // login(values)
+          //   .then(res => {
+          //     // 登录成功  前往目标页面
+          //     this.$notification.success({
+          //       message: res.message,
+          //       duration: 2
+          //     })
+          //     this.$store.dispatch('SAVE_TOKEN', res.token)
+          //     setToken('token', res.token)
+          //     this.$router.push('/homeConfig')
+          //   })
+          //   .catch(e => {
+          //     this.$notification.error({
+          //       message: e.message,
+          //       duration: 1.5
+          //     })
+          //   })
         }
       })
     },

@@ -23,7 +23,8 @@
                      <i :class="['iconfont',item.icon]" />
                     {{collapsed ? '':item.title}}
                     </span>
-                    <a-menu-item :key="temp.key" v-for="temp in item.children" :data-path="temp.path" :data-title="temp.title">{{temp.title}}</a-menu-item>
+                    <a-menu-item :key="temp.key" v-for="temp in item.children" :data-path="temp.path" :data-title="temp.title"> {{temp.title}}
+                    </a-menu-item>
                 </a-sub-menu>
             </template>
         </a-menu>

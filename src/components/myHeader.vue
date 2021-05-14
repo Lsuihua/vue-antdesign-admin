@@ -24,8 +24,9 @@ import userControl from './userControl'
 export default {
   name: 'my-header',
   components: { userControl },
-  created: function () {
+  mounted: function () {
     this.$store.dispatch('CHANGE_CURRENT_MENU', this.currentMenu)
+    
   },
   methods: {
     toMenuHandle (index, title) {
@@ -37,6 +38,15 @@ export default {
   },
   computed: {
     ...mapGetters(['menu', 'currentMenu'])
+  },
+  watch:{
+    menu:{
+      handler(newVal){
+        // 初始显示二级菜单
+        this.$store.dispatch('SAVE_MENU_SELECT', newVal[this.currentMenu].children)
+      },
+      immediate:true
+    }
   }
 }
 </script>

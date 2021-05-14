@@ -16,21 +16,21 @@ const db = app.database();
 export default {
   name: 'app',
   mounted(){
-    if(!this.token){
+    const loginState = app.auth().hasLoginState();
+    if(loginState === null){
       // 未登陆 去登陆
       return this.$router.push('/login');
     }
     
+    // 获取菜单
     db.collection("configs").where(
       {_id:'d5b22d996089096700018d785236abcb'}
     ).get().then(res => {
-      console.log('结果===>',res)
+      if(res.data.length>0){
+        let _menu = res.data[0].menus
+        this.$store.dispatch('SAVE_MENU',_menu)
+      }
     });
-  },
-  computed:{
-    token(){
-      return this.$store.state.token
-    }
   }
 }
 </script>
