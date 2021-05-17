@@ -17,6 +17,7 @@ export default {
   name: 'app',
   mounted(){
     const loginState = app.auth().hasLoginState();
+    console.log(loginState)
     if(loginState === null){
       // 未登陆 去登陆
       return this.$router.push('/login');

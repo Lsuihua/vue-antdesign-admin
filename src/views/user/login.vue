@@ -4,46 +4,147 @@
       <a-col class="login-box" :lg="{ span: 8,offset:8 }" :md="{ span: 10,offset:7 }" :sm="{ span: 14,offset:5 }"  :xs="{ span: 20,offset:2 }">
         <a-form class="login-form" :form="form" @submit="handleSubmit">
           <h2 class="hd">后台管理系统</h2>
-          <a-form-item has-feedback>
-            <a-input
-              placeholder="请输入账号"
-              v-decorator="[
-                'username',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: '至少输入两位字符'
-                    }
-                  ]
-                }
-              ]"
-            />
-            <i class="iconfont yonghu"></i>
-          </a-form-item>
-          <a-form-item has-feedback>
-            <a-input
-              type="password"
-              id="warning"
-              placeholder="请输入密码"
-              v-decorator="[
-                'password',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      min: '6',
-                      pattern: /^[a-zA-Z0-9]\w{5,17}$/i,
-                      message: '请输入6-18位非特殊字符'
-                    }
-                  ]
-                }
-              ]"
-            />
-            <i class="iconfont mima"></i>
-          </a-form-item>
+          <!-- 用户密码 -->
+          <div v-if="loginType == 'user'">
+            <a-form-item>
+              <a-input
+                placeholder="请输入账号"
+                v-decorator="[
+                  'username',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: '至少输入两位字符'
+                      }
+                    ]
+                  }
+                ]"
+              />
+              <i class="iconfont yonghu"></i>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                type="password"
+                id="warning"
+                placeholder="请输入密码"
+                v-decorator="[
+                  'password',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        min: '6',
+                        pattern: /^[a-zA-Z0-9]\w{5,17}$/i,
+                        message: '请输入6-18位非特殊字符'
+                      }
+                    ]
+                  }
+                ]"
+              />
+              <i class="iconfont mima"></i>
+            </a-form-item>  
+          </div>
+          <!-- 手机号验证码 -->
+          <div v-if="loginType == 'mobile'">
+            <a-form-item>
+              <a-input
+                v-decorator="[
+                  'phoneNumber',
+                  {
+                    rules: [{ required: true, message: '请输入手机号码' }],
+                  },
+                ]"
+                style="width: 100%"
+              >
+                <a-select
+                  slot="addonBefore"
+                  v-decorator="['prefix', { initialValue: '86' }]"
+                  style="width: 70px"
+                >
+                  <a-select-option value="86">
+                    +86
+                  </a-select-option>
+                  <a-select-option value="87">
+                    +87
+                  </a-select-option>
+                </a-select>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+               <a-input-search
+               v-decorator="[
+                  'phoneCode',
+                  {
+                    rules: [{ required: true, message: '请输入验证码' }],
+                  },
+                ]"
+                placeholder="请输入验证码"
+                enter-button="发送验证码"
+                size="large"
+                @search="onSendCode"
+              />
+            </a-form-item>  
+          </div>
+          <!-- 邮箱 密码 -->
+          <div v-if="loginType == 'mail'">
+            <a-form-item>
+              <a-input default-value="mysite"
+                v-decorator="[
+                  'email',
+                  {
+                    rules: [{ required: true, message: '请输入邮箱' }],
+                  },
+                ]"
+              >
+                <a-select slot="addonBefore" default-value="Http://" style="width: 90px">
+                  <a-select-option value="Http://">
+                    Http://
+                  </a-select-option>
+                  <a-select-option value="Https://">
+                    Https://
+                  </a-select-option>
+                </a-select>
+                <a-select slot="addonAfter" default-value=".com" style="width: 80px">
+                  <a-select-option value=".com">
+                    .com
+                  </a-select-option>
+                  <a-select-option value=".jp">
+                    .jp
+                  </a-select-option>
+                  <a-select-option value=".cn">
+                    .cn
+                  </a-select-option>
+                  <a-select-option value=".org">
+                    .org
+                  </a-select-option>
+                </a-select>
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                type="password"
+                id="warning"
+                placeholder="请输入密码"
+                v-decorator="[
+                  'upwd',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        min: '6',
+                        pattern: /^[a-zA-Z0-9]\w{5,17}$/i,
+                        message: '请输入6-18位非特殊字符'
+                      }
+                    ]
+                  }
+                ]"
+              />
+              <i class="iconfont mima"></i>
+            </a-form-item>  
+          </div>
           <!--拖动验证-->
-          <a-form-item>
+          <!-- <a-form-item>
             <div class="drag-check">
               <div
                 class="drag-item drag-bg"
@@ -60,10 +161,23 @@
                 dragText
               }}</span>
             </div>
-          </a-form-item>
+          </a-form-item> -->
           <a-form-item :wrapper-col="{ span: 24 }">
+             <a-checkbox
+                v-decorator="[
+                  'remember',
+                  {
+                    valuePropName: 'checked',
+                    initialValue: true,
+                  },
+                ]"
+              >
+                记住密码
+              </a-checkbox>
+              <a class="login-form-forgot" href="">
+                去注册？
+              </a>
             <a-button
-              :disabled="!success"
               block
               size="large"
               class="submit"
@@ -72,10 +186,10 @@
               >登录</a-button
             >
           </a-form-item>
-          <a-divider>快捷登陆</a-divider>
+          <a-divider>其他登陆</a-divider>
           <!-- 快速登录 -->
           <div class="quick-login">
-           <a-button :icon="item.icon" size="large" shape="circle" v-for="(item, index) in quickList" @click="quickHandle(item)"/>
+           <a-button :icon="item.icon" size="large" shape="circle" :type="index == current ?'primary':''" v-for="(item, index) in quickList" @click="quickHandle(item,index)"/>
           </div>
         </a-form>
       </a-col>
@@ -109,28 +223,38 @@ export default {
       distance: 0,
       success: false,
       form: this.$form.createForm(this),
+      current:0,
+      loginType:'user',
       quickList:[
         {
-          icon:'wechat',
-          type:'wechat'
+          icon:'user',
+          type:'user'
         },
         {
-          icon:'qq',
-          type:'qq'
+          icon:'mobile',
+          type:'mobile'
         },
+        // {
+        //   icon:'wechat',
+        //   type:'wechat'
+        // },
         {
-          icon:'github',
-          type:'github'
+          icon:'mail',
+          type:'mail'
         }
       ],
-      visible:false,
-      codeImg:'../../../static/img/code.jpg'
+      visible:false
     }
   },
   methods: {
-    quickHandle(item){
-      console.log(item)
-      // this.visible = true
+    onSendCode(){
+      // 发送验证码
+    },
+    quickHandle(item,index){
+      // 登陆方式
+      if(index == this.current) return
+      this.current = index
+      this.loginType = item.type
       if(item.type == 'wechat'){
         const provider = auth.weixinAuthProvider({
           appid: "wx3ac5d72d508f6a26",
@@ -143,78 +267,98 @@ export default {
             // 登录成功！
           }
         });
-      }else if(item.type == 'qq'){
-
       }
     },
     hideModal(){
      this.visible = false
     },
-    // 登录
     handleSubmit (e) {
+      // 登录
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log(values)
-          const {username, password} = values
+          // 验证通过 弹出滑动检测
+          switch(this.loginType){
+            case 'user':
+              const {username, password} = values
+              // 检查用户存在
+              auth.isUsernameRegistered(username).then((registered) => {
+                console.log('用户存在',registered)
+                if(registered){
+                  this.$notification.error({
+                    message:'该用户名已存在，请重新输入',
+                    duration: 1.5
+                  })
+                  // 重置表单
+                  this.success = false
+                  this.checkOn = false
+                  this.dragText='请拖动滑块解锁'
+                  this.moveX= 0
+                  this.startsX= 0
+                  this.distance=0
+                  this.form.resetFields()
+                }else{
+                  auth.signInWithEmailAndPassword(username, password)
+                  .then((loginState) => {
+                    console.log("登录结果",loginState)
+                    // 登录成功
+                    this.$router.replace('/')
+                    this.$notification.success('登录成功')
+                  }).catch(err =>{
+                    this.$notification.error({
+                      message:'登录失败',
+                      description:"账号或密码填写错误"
+                    })
+                  })
+                }
+              });
+          
+              break;
+            case 'mobile':
+              // 手机号登录（支持短信验证码 or 密码方式）
+              const {phoneNumber, phoneCode} = values
 
-          // 检查用户存在
-          auth.isUsernameRegistered(username).then((registered) => {
-            console.log(registered)
-            if(registered){
-              this.$notification.error({
-                message:'该用户名已存在，请重新输入',
-                duration: 1.5
-              })
-              // 重置表单
-              this.success = false
-              this.checkOn = false
-              this.dragText='请拖动滑块解锁'
-              this.moveX= 0
-              this.startsX= 0
-              this.distance=0
-              this.form.resetFields()
-            }else{
-              // auth.signInWithUsernameAndPassword(username, password).then((loginState) => {
-              //   console.log(loginState)
-              //   // 用户名密码登录成功
-              // }).cath((err)=>{
-              //   console.log(err)
-              // });
-              // auth.signUpWithEmailAndPassword(username, password)
-              // .then((loginState) => {
-              //   console.log(loginState)
-              //   // 发送验证邮件成功
-              //   this.$notification.error({
-              //     message:'发送验证邮件成功,请前往激活',
-              //     duration: 1.5
-              //   })
-              // });
-              auth.signInWithEmailAndPassword(username, password)
+              auth.signUpWithPhoneCode(phoneNumber, phoneCode).then((res) => {
+                // 注册成功
+              });
+
+              auth.signInWithPhoneCodeOrPassword({
+                  phoneNumber,
+                  phoneCode
+                })
+                .then((res) => {
+                  // 登录成功
+                });
+              break;
+            case 'mail':
+              const {email , upwd } = values
+
+              auth.signUpWithEmailAndPassword(email, upwd)
               .then((loginState) => {
                 console.log(loginState)
-                // 登录成功
+                // 发送验证邮件成功
+                this.$notification.error({
+                  message:'发送验证邮件成功,请前往激活',
+                  duration: 1.5
+                })
               });
-            }
-          });
-          
-          // login(values)
-          //   .then(res => {
-          //     // 登录成功  前往目标页面
-          //     this.$notification.success({
-          //       message: res.message,
-          //       duration: 2
-          //     })
-          //     this.$store.dispatch('SAVE_TOKEN', res.token)
-          //     setToken('token', res.token)
-          //     this.$router.push('/homeConfig')
-          //   })
-          //   .catch(e => {
-          //     this.$notification.error({
-          //       message: e.message,
-          //       duration: 1.5
-          //     })
-          //   })
+
+              auth.signInWithEmailAndPassword(email, upwd)
+              .then((loginState) => {
+                console.log("登录结果",loginState)
+                // 登录成功
+                this.$router.replace('/')
+                this.$notification.success('登录成功')
+              }).catch(err =>{
+                this.$notification.error({
+                  message:'登录失败',
+                  description:"邮箱或密码填写错误"
+                })
+              })
+
+              break
+          }
         }
       })
     },
@@ -335,6 +479,10 @@ export default {
   .quick-login{
     display: flex;
     justify-content: space-evenly;
+  }
+  .login-form-forgot{
+    float: right;
+    text-decoration: underline;
   }
 }
 </style>
