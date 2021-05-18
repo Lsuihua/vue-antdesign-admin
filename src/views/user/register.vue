@@ -1,85 +1,201 @@
 <template>
-    <div class="register">
-        <a-form
-                class="register-form"
-                :form="form"
-                @submit="handleSubmit"
-        >
-            <a-form-item
-                    label="Note"
-                    :label-col="{ span: 5 }"
-                    :wrapper-col="{ span: 12 }"
-            >
-                <a-input
-                        v-decorator="[
-          'note',
-          {rules: [{ required: true, message: 'Please input your note!' }]}
-        ]"
-                />
-            </a-form-item>
-            <a-form-item
-                    label="Gender"
-                    :label-col="{ span: 5 }"
-                    :wrapper-col="{ span: 12 }"
-            >
+  <div class="login">
+    <a-row :gutter="24">
+      <a-col class="login-box" :lg="{ span: 8,offset:8 }" :md="{ span: 10,offset:7 }" :sm="{ span: 14,offset:5 }"  :xs="{ span: 20,offset:2 }">
+        <a-form class="login-form" :form="form" @submit="handleSubmit">
+          <h2 class="hd">后台管理系统</h2>
+          <!-- 手机号验证码 -->
+          <div v-if="loginType == 'mobile'">
+            <a-form-item>
+              <a-input
+                placeholder="请输入手机号"
+                v-decorator="[
+                  'phoneNumber',
+                  {
+                    rules: [{ required: true, pattern: /^1\d{10}$/i, message: '请检查手机号格式' }],
+                  },
+                ]"
+                style="width: 100%"
+              >
                 <a-select
-                        v-decorator="[
-          'gender',
-          {rules: [{ required: true, message: 'Please select your gender!' }]}
-        ]"
-                        placeholder="Select a option and change input text above"
-                        @change="handleSelectChange"
+                  slot="addonBefore"
+                  v-decorator="['prefix', { initialValue: '86' }]"
+                  style="width: 70px"
                 >
-                    <a-select-option value="male">
-                        male
-                    </a-select-option>
-                    <a-select-option value="female">
-                        female
-                    </a-select-option>
+                  <a-select-option value="86">
+                    +86
+                  </a-select-option>
                 </a-select>
+              </a-input>
             </a-form-item>
-            <a-form-item
-                    :wrapper-col="{ span: 12, offset: 5 }"
+            <a-form-item>
+               <a-input-search
+               v-decorator="[
+                  'phoneCode',
+                  {
+                    rules: [{ required: true, message: '请输入验证码' }],
+                  },
+                ]"
+                placeholder="请输入验证码"
+                enter-button="发送验证码"
+                size="large"
+                @search="onSendCode"
+              />
+            </a-form-item>  
+          </div>
+          <!-- 邮箱 密码 -->
+          <div v-if="loginType == 'mail'">
+            <a-form-item>
+              <a-input default-value="mysite"
+                placeholder="请输入邮箱"
+                v-decorator="[
+                  'email',
+                  {
+                    rules: [{ required: true, message: '请输入邮箱' }],
+                  },
+                ]"
+              >
+              </a-input>
+               <a-icon class="iconfont" type="mail" />
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                type="password"
+                id="warning"
+                placeholder="请输入密码"
+                v-decorator="[
+                  'upwd',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        min: '6',
+                        pattern: /^[a-zA-Z0-9]\w{5,17}$/i,
+                        message: '请输入6-18位非特殊字符'
+                      }
+                    ]
+                  }
+                ]"
+              />
+              <i class="iconfont mima"></i>
+            </a-form-item>  
+          </div>
+          <a-form-item :wrapper-col="{ span: 24 }">
+             
+            <a-button
+              block
+              size="large"
+              class="submit"
+              type="primary"
+              html-type="submit"
+              >注册</a-button
             >
-                <a-button
-                        type="primary"
-                        html-type="submit"
-                >
-                    Submit
-                </a-button>
-            </a-form-item>
+            <a class="login-form-forgot" @click="toLogin">
+            已有账号去登录！
+            </a>
+          </a-form-item>
+          <a-divider>其他方式</a-divider>
+          <!-- 快速登录 -->
+          <div class="quick-login">
+           <a-button :icon="item.icon" size="large" shape="circle" :type="index == current ?'primary':''" v-for="(item, index) in quickList" @click="quickHandle(item,index)"/>
+          </div>
         </a-form>
-    </div>
+      </a-col>
+    </a-row>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "register",
-        data(){
-            return{
-                formLayout: 'horizontal',
-                form: this.$form.createForm(this),
-            }
+import {testPhone} from '@/utils/auth'
+const app = cloudbase.init({
+  env: "dev-serve-7g46wttx6ced4f15",
+  region: "ap-guangzhou"
+});
+const auth = app.auth();
+export default {
+  name: 'login',
+  data () {
+    return {
+      form: this.$form.createForm(this),
+      current:0,
+      loginType:'mobile',
+      quickList:[
+        {
+          icon:'mobile',
+          type:'mobile'
         },
-        methods:{
-            handleSubmit (e) {
-                e.preventDefault();
-                this.form.validateFields((err, values) => {
-                    if (!err) {
-                        console.log('Received values of form: ', values);
-                    }
-                });
-            },
-            handleSelectChange (value) {
-                console.log(value);
-                this.form.setFieldsValue({
-                    note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-                });
-            }
+        {
+          icon:'mail',
+          type:'mail'
         }
+      ]
     }
+  },
+  methods: {
+    toLogin(e){
+      e.preventDefault()
+      // 去登录
+      this.$router.replace('/login')
+    },
+    onSendCode(){
+      // 发送验证码
+      let _mobile = this.form.getFieldValue('phoneNumber')
+      
+      if(testPhone(_mobile)){
+        auth.sendPhoneCode(_mobile).then((res) => {
+            if (res === true) {
+                console.log("验证码发送成功!");
+            }
+        });
+      }
+      
+    },
+    quickHandle(item,index){
+      // 登陆方式
+      if(index == this.current) return
+      this.current = index
+      this.loginType = item.type
+    },
+    handleSubmit (e) {
+      // 登录
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          // 验证通过 弹出滑动检测
+          switch(this.loginType){
+            case 'mobile':
+              // 手机号登录（支持短信验证码 or 密码方式）
+              const {phoneNumber, phoneCode} = values
+
+              auth.signUpWithPhoneCode(phoneNumber, phoneCode).then((res) => {
+                console.log(res)
+                this.$router.replace('/')
+              });
+              break;
+            case 'mail':
+              const {email , upwd } = values
+              auth.signUpWithEmailAndPassword(email, upwd)
+              .then((loginState) => {
+                console.log(loginState)
+                // 发送验证邮件成功
+                this.$notification.error({
+                  message:'发送验证邮件成功,请前往激活',
+                  duration: 1.5
+                })
+              });
+              break
+          }
+        }
+      })
+    }
+  }
+}
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+.login-box{
+    position: fixed;
+    top: 50%;
+    transform: translateY(-60%);
+}
 </style>

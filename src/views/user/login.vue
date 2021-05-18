@@ -65,9 +65,6 @@
                   <a-select-option value="86">
                     +86
                   </a-select-option>
-                  <a-select-option value="87">
-                    +87
-                  </a-select-option>
                 </a-select>
               </a-input>
             </a-form-item>
@@ -90,6 +87,7 @@
           <div v-if="loginType == 'mail'">
             <a-form-item>
               <a-input default-value="mysite"
+                placeholder="请输入邮箱"
                 v-decorator="[
                   'email',
                   {
@@ -97,29 +95,8 @@
                   },
                 ]"
               >
-                <a-select slot="addonBefore" default-value="Http://" style="width: 90px">
-                  <a-select-option value="Http://">
-                    Http://
-                  </a-select-option>
-                  <a-select-option value="Https://">
-                    Https://
-                  </a-select-option>
-                </a-select>
-                <a-select slot="addonAfter" default-value=".com" style="width: 80px">
-                  <a-select-option value=".com">
-                    .com
-                  </a-select-option>
-                  <a-select-option value=".jp">
-                    .jp
-                  </a-select-option>
-                  <a-select-option value=".cn">
-                    .cn
-                  </a-select-option>
-                  <a-select-option value=".org">
-                    .org
-                  </a-select-option>
-                </a-select>
               </a-input>
+              <a-icon class="iconfont" type="mail" />
             </a-form-item>
             <a-form-item>
               <a-input
@@ -174,7 +151,7 @@
               >
                 记住密码
               </a-checkbox>
-              <a class="login-form-forgot" href="">
+              <a class="login-form-forgot" @click="toRegister">
                 去注册？
               </a>
             <a-button
@@ -201,7 +178,7 @@
 </template>
 
 <script>
-import { setToken } from '@/utils/auth'
+import { testPhone } from '@/utils/auth'
 const app = cloudbase.init({
   env: "dev-serve-7g46wttx6ced4f15",
   region: "ap-guangzhou"
@@ -247,8 +224,21 @@ export default {
     }
   },
   methods: {
+    toRegister(e){
+      e.preventDefault()
+      // 去注册
+      this.$router.replace('/register')
+    },
     onSendCode(){
       // 发送验证码
+      let _mobile = this.form.getFieldValue('phoneNumber')
+      if(testPhone(_mobile)){
+        auth.sendPhoneCode(_mobile).then((res) => {
+            if (res === true) {
+                console.log("验证码发送成功!");
+            }
+        });
+      }
     },
     quickHandle(item,index){
       // 登陆方式
@@ -282,46 +272,24 @@ export default {
           switch(this.loginType){
             case 'user':
               const {username, password} = values
-              // 检查用户存在
-              auth.isUsernameRegistered(username).then((registered) => {
-                console.log('用户存在',registered)
-                if(registered){
-                  this.$notification.error({
-                    message:'该用户名已存在，请重新输入',
-                    duration: 1.5
-                  })
-                  // 重置表单
-                  this.success = false
-                  this.checkOn = false
-                  this.dragText='请拖动滑块解锁'
-                  this.moveX= 0
-                  this.startsX= 0
-                  this.distance=0
-                  this.form.resetFields()
-                }else{
-                  auth.signInWithEmailAndPassword(username, password)
-                  .then((loginState) => {
-                    console.log("登录结果",loginState)
-                    // 登录成功
-                    this.$router.replace('/')
-                    this.$notification.success('登录成功')
-                  }).catch(err =>{
-                    this.$notification.error({
-                      message:'登录失败',
-                      description:"账号或密码填写错误"
-                    })
-                  })
-                }
-              });
-          
+              auth.signInWithEmailAndPassword(username, password)
+              .then((loginState) => {
+                // 登录成功
+                this.$router.replace('/')
+                this.$notification.success({
+                  message:'登录成功',
+                  description:"欢迎回来"
+                })
+              }).catch(err =>{
+                this.$notification.error({
+                  message:'登录失败',
+                  description:"账号或密码填写错误"
+                })
+              })
               break;
             case 'mobile':
               // 手机号登录（支持短信验证码 or 密码方式）
               const {phoneNumber, phoneCode} = values
-
-              auth.signUpWithPhoneCode(phoneNumber, phoneCode).then((res) => {
-                // 注册成功
-              });
 
               auth.signInWithPhoneCodeOrPassword({
                   phoneNumber,
@@ -333,17 +301,6 @@ export default {
               break;
             case 'mail':
               const {email , upwd } = values
-
-              auth.signUpWithEmailAndPassword(email, upwd)
-              .then((loginState) => {
-                console.log(loginState)
-                // 发送验证邮件成功
-                this.$notification.error({
-                  message:'发送验证邮件成功,请前往激活',
-                  duration: 1.5
-                })
-              });
-
               auth.signInWithEmailAndPassword(email, upwd)
               .then((loginState) => {
                 console.log("登录结果",loginState)
@@ -356,8 +313,7 @@ export default {
                   description:"邮箱或密码填写错误"
                 })
               })
-
-              break
+              break;
           }
         }
       })
@@ -402,87 +358,5 @@ export default {
     top: 50%;
     transform: translateY(-60%);
 }
-.login-form {
-  background: #ffffff;
-  padding: 26px;
-  box-sizing: border-box;
-  border-radius: 18px;
-  width: 100%;
-  .hd{
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  & > .ant-form-item:last-child {
-    margin-bottom: 0;
-  }
-  .ant-form-item-control {
-    .ant-form-item-children {
-      display: inherit !important;
-      .ant-input {
-        display: block;
-        height: 40px;
-        padding-left: 50px;
-      }
-      .iconfont {
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        background: #1890ff;
-        width: 40px;
-        text-align: center;
-        color: #fff;
-        height: 40px;
-        border-radius: 5px 0 0 5px;
-      }
-    }
-  }
-  .drag-check {
-    text-align: center;
-    position: relative;
-    background: #e4e4e4;
-    height: 40px;
-    border-radius: 3px;
-    overflow: hidden;
-    .drag-item {
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-    }
-    .drag-bg {
-      background: #ff9800;
-      z-index: 1;
-    }
-    .text {
-      width: 100%;
-      text-align: center;
-      z-index: 2;
-      color: #8e8e8e;
-    }
-    .success {
-      color: #fff;
-    }
-    .drag-btn {
-      background: #1890ff;
-      width: 40px;
-      line-height: 44px;
-      font-size:16px;
-      z-index: 3;
-      cursor: pointer;
-      color: #fff;
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      user-select: none;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-  }
-  .quick-login{
-    display: flex;
-    justify-content: space-evenly;
-  }
-  .login-form-forgot{
-    float: right;
-    text-decoration: underline;
-  }
-}
+
 </style>
