@@ -1,16 +1,17 @@
+import {getToken} from "../../utils/auth";
 const user = {
     state:{
-        userInfo:{
-            avatar:'',
-            mobile:'',
-            nickName:''
-        }
+        userInfo:JSON.parse(getToken('userinfo')) || null
     },
     mutations:{
-    
+        SAVE_USER_INFO(state,data){
+            state.userInfo = data
+        }
     },
-    action:{
-    
+    actions:{
+        SAVE_USER_INFO({commit},data){
+            commit('SAVE_USER_INFO',data)
+        }
     }
 }
 

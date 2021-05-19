@@ -3,7 +3,7 @@ const app = {
     state:{
         collapsed:false,
         currentMenu:JSON.parse(getToken('currentMenu')) || 0,
-        menu:[],
+        menu:JSON.parse(getToken('menu')) || [],
         menuSelect:[],
         defaultMenuKey:JSON.parse(getToken('menuDfKey')) || [],
         openKey:JSON.parse(getToken('openKeys')) || [],

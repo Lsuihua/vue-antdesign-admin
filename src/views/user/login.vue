@@ -46,7 +46,7 @@
             </a-form-item>  
           </div>
           <!-- 手机号验证码 -->
-          <div v-if="loginType == 'mobile'">
+          <div v-if="loginType == 'mobile'" class="mobile-box">
             <a-form-item>
               <a-input
                 v-decorator="[
@@ -55,7 +55,6 @@
                     rules: [{ required: true, message: '请输入手机号码' }],
                   },
                 ]"
-                style="width: 100%"
               >
                 <a-select
                   slot="addonBefore"
@@ -86,7 +85,7 @@
           <!-- 邮箱 密码 -->
           <div v-if="loginType == 'mail'">
             <a-form-item>
-              <a-input default-value="mysite"
+              <a-input
                 placeholder="请输入邮箱"
                 v-decorator="[
                   'email',

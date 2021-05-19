@@ -43,7 +43,11 @@ export default {
     menu:{
       handler(newVal){
         // 初始显示二级菜单
-        this.$store.dispatch('SAVE_MENU_SELECT', newVal[this.currentMenu].children)
+        console.log(newVal)
+        if(newVal.length>0){
+          const nextMenu  = newVal[this.currentMenu].children
+          this.$store.dispatch('SAVE_MENU_SELECT', nextMenu)
+        }
       },
       immediate:true
     }

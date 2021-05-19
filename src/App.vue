@@ -14,25 +14,7 @@ const app = cloudbase.init({
 const db = app.database();
 
 export default {
-  name: 'app',
-  mounted(){
-    const loginState = app.auth().hasLoginState();
-    console.log(loginState)
-    if(loginState === null){
-      // 未登陆 去登陆
-      return this.$router.push('/login');
-    }
-    
-    // 获取菜单
-    db.collection("configs").where(
-      {_id:'d5b22d996089096700018d785236abcb'}
-    ).get().then(res => {
-      if(res.data.length>0){
-        let _menu = res.data[0].menus
-        this.$store.dispatch('SAVE_MENU',_menu)
-      }
-    });
-  }
+  name: 'app'
 }
 </script>
 
@@ -78,6 +60,11 @@ export default {
         border-radius: 5px 0 0 5px;
         line-height: 40px;
       }
+    }
+  }
+  .mobile-box{
+    .ant-input {
+      padding-left: 12px!important;
     }
   }
   .drag-check {

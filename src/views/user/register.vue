@@ -5,7 +5,7 @@
         <a-form class="login-form" :form="form" @submit="handleSubmit">
           <h2 class="hd">后台管理系统</h2>
           <!-- 手机号验证码 -->
-          <div v-if="loginType == 'mobile'">
+          <div v-if="loginType == 'mobile'" class="mobile-box">
             <a-form-item>
               <a-input
                 placeholder="请输入手机号"
@@ -15,7 +15,6 @@
                     rules: [{ required: true, pattern: /^1\d{10}$/i, message: '请检查手机号格式' }],
                   },
                 ]"
-                style="width: 100%"
               >
                 <a-select
                   slot="addonBefore"
@@ -37,9 +36,10 @@
                   },
                 ]"
                 placeholder="请输入验证码"
-                enter-button="发送验证码"
+                :enter-button="btntext"
                 size="large"
                 @search="onSendCode"
+                :disabled="disabled"
               />
             </a-form-item>  
           </div>
@@ -81,7 +81,6 @@
             </a-form-item>  
           </div>
           <a-form-item :wrapper-col="{ span: 24 }">
-             
             <a-button
               block
               size="large"
@@ -119,6 +118,9 @@ export default {
       form: this.$form.createForm(this),
       current:0,
       loginType:'mobile',
+      disabled:false,
+      time:60,
+      btntext:'获取验证码',
       quickList:[
         {
           icon:'mobile',
@@ -144,14 +146,23 @@ export default {
       if(testPhone(_mobile)){
         auth.sendPhoneCode(_mobile).then((res) => {
             if (res === true) {
-                console.log("验证码发送成功!");
+              this.disabled = true
+              let timer = setInterval(()=>{
+                this.time --
+                this.btntext = this.time+'S后重新获取'
+                if(this.time<= 0){
+                  clearInterval(timer)
+                  this.disabled = false
+                  this.btntext = '获取验证码'
+                }
+              },1000)
             }
         });
       }
       
     },
     quickHandle(item,index){
-      // 登陆方式
+      //注册方式
       if(index == this.current) return
       this.current = index
       this.loginType = item.type
@@ -168,7 +179,7 @@ export default {
               const {phoneNumber, phoneCode} = values
 
               auth.signUpWithPhoneCode(phoneNumber, phoneCode).then((res) => {
-                console.log(res)
+                // 注册及登录成功
                 this.$router.replace('/')
               });
               break;
