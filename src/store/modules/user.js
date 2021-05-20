@@ -1,7 +1,7 @@
 import {getToken} from "../../utils/auth";
 const user = {
     state:{
-        userInfo:JSON.parse(getToken('userinfo')) || null
+        userInfo:JSON.parse(getToken('userInfo')) || null
     },
     mutations:{
         SAVE_USER_INFO(state,data){

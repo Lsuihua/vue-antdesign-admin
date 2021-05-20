@@ -165,7 +165,7 @@
           <a-divider>其他登陆</a-divider>
           <!-- 快速登录 -->
           <div class="quick-login">
-           <a-button :icon="item.icon" size="large" shape="circle" :type="index == current ?'primary':''" v-for="(item, index) in quickList" @click="quickHandle(item,index)"/>
+           <a-button :icon="item.icon" size="large" shape="circle" :type="index == current ?'primary':''" v-for="(item, index) in quickList" @click="quickHandle(item, index)"/>
           </div>
         </a-form>
       </a-col>
@@ -178,14 +178,11 @@
 
 <script>
 import { testPhone } from '@/utils/auth'
-const app = cloudbase.init({
-  env: "dev-serve-7g46wttx6ced4f15",
-  region: "ap-guangzhou"
-});
-const auth = app.auth();
+let auth = null
 export default {
   name: 'login',
-  mounted: function () {
+  mounted() {
+    auth = this.$app.auth();
     window.onmouseup = () => {
       this.onmouseup()
     }
@@ -305,7 +302,9 @@ export default {
                 console.log("登录结果",loginState)
                 // 登录成功
                 this.$router.replace('/')
-                this.$notification.success('登录成功')
+                this.$notification.success({
+                  message:'登录成功'
+                })
               }).catch(err =>{
                 this.$notification.error({
                   message:'登录失败',

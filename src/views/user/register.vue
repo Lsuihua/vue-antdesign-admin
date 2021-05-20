@@ -106,13 +106,12 @@
 
 <script>
 import {testPhone} from '@/utils/auth'
-const app = cloudbase.init({
-  env: "dev-serve-7g46wttx6ced4f15",
-  region: "ap-guangzhou"
-});
-const auth = app.auth();
+let auth = null
 export default {
   name: 'login',
+  mounted(){
+    auth = this.$app.auth();
+  },
   data () {
     return {
       form: this.$form.createForm(this),

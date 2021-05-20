@@ -9,7 +9,7 @@ import store from '@/store/index'
 
 import cloudbase from "@cloudbase/js-sdk";
 
-import { getToken } from "@/utils/auth";
+import { setToken } from "@/utils/auth";
 
 // 云开发初始化
 const app = cloudbase.init({
@@ -17,10 +17,6 @@ const app = cloudbase.init({
   region: "ap-guangzhou"
 });
 const db = app.database();
-
-// 判断是否登录
-const loginState = app.auth().hasLoginState();
-
 
 Vue.use(Router)
 
@@ -43,15 +39,18 @@ const router = new Router({
         {
             path:'/',
             component: Layout,
-            children: routerChildren
+            children: routerChildren,
+            redirect:'/homeConfig'
         }
     ]
 })
 
 router.beforeEach((to, from, next) => {
-    console.log(to)
+    // console.log(to)
     if (to.path == '/login' || to.path == '/register') next()
     else{
+        // 判断是否登录
+        const loginState = app.auth().hasLoginState();
         console.log("登录状态",loginState)
         if(loginState === null){
             // 未登陆 去登陆
@@ -68,16 +67,17 @@ router.beforeEach((to, from, next) => {
                     ).get().then(res => {
                       if(res.data.length>0){
                         let _menu = res.data[0].menus
-                        getToken('menu',JSON.stringify(_menu))
+                        setToken('menu',JSON.stringify(_menu))
                         store.dispatch('SAVE_MENU',_menu)
                       }
                     });
                 }
                 if(store.state.user.userInfo === null){
                     //获取用户信息
-                    const user = app.auth().currentUser;
-                    getToken('userinfo',JSON.stringify(user))
-                    store.dispatch('SAVE_USER_INFO',user)
+                    let {avatarUrl,email,gender,hasPassword,loginType,nickName,openid,phone,qqMiniOpenId,uid,unionId,wxOpenId,wxPublicId} = app.auth().currentUser;
+                    // console.log(_user)
+                    setToken('userInfo',JSON.stringify({avatarUrl,email,gender,hasPassword,loginType,nickName,openid,phone,qqMiniOpenId,uid,unionId,wxOpenId,wxPublicId}))
+                    store.dispatch('SAVE_USER_INFO',{avatarUrl,email,gender,hasPassword,loginType,nickName,openid,phone,qqMiniOpenId,uid,unionId,wxOpenId,wxPublicId})
                 }   
                 next()
             }

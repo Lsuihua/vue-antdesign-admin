@@ -24,6 +24,8 @@
 </template>
 
 <script>
+
+import {removeToken} from '@/utils/auth'
 export default {
   name: 'user-control',
   data () {
@@ -40,6 +42,14 @@ export default {
     },
     logoutHandle () {
       this.visible = false
+      this.$app.auth().signOut();
+      // 清缓存
+      this.$store.dispatch('SAVE_MENU',[])
+      this.$store.dispatch('SAVE_MENU_SELECT',[])
+      this.$store.dispatch('SAVE_BREAD_CRUMB',[])
+      this.$store.dispatch('SAVE_OPEN_KEY',[])
+      this.$store.dispatch('CHANGE_CURRENT_MENU',[])
+      removeToken()
     }
   }
 }

@@ -10,6 +10,15 @@ import 'ant-design-vue/dist/antd.css'
 import '../static/font/iconfont.css'
 import '../static/css/common.css'
 
+import cloudbase from "@cloudbase/js-sdk";
+// 云开发初始化
+const app = cloudbase.init({
+  env: "dev-serve-7g46wttx6ced4f15",
+  region: "ap-guangzhou"
+});
+
+Vue.prototype.$app = app
+
 Vue.use(Antd)
 
 Vue.config.productionTip = false
