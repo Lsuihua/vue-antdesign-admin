@@ -50,6 +50,7 @@ export default {
       this.$store.dispatch('SAVE_OPEN_KEY',[])
       this.$store.dispatch('CHANGE_CURRENT_MENU',[])
       removeToken()
+      this.$router.replace({'path':'/login'})
     }
   }
 }

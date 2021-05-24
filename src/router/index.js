@@ -46,7 +46,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    // console.log(to)
+    // console.log(to,from)
     if (to.path == '/login' || to.path == '/register') next()
     else{
         // 判断是否登录
