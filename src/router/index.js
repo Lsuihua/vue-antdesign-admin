@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
     else{
         // 判断是否登录
         const loginState = app.auth().hasLoginState();
-        console.log("登录状态",loginState)
+        // console.log("登录状态",loginState)
         if(loginState === null){
             // 未登陆 去登陆
             next({path:'/login'})
@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
             // 判断是否拉去菜单 信息
             getBaseData()
             async function getBaseData (){
-                console.log(store)
+                // console.log(store)
                 if(store.state.app.menu.length == 0){
                     // 获取菜单
                     await db.collection("configs").where(

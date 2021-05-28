@@ -35,7 +35,6 @@
      *  name:'user'
      * })
      */
-    import {getUserList} from '@/mock/user'
     export default {
         name: "user",
         data () {

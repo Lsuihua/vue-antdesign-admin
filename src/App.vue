@@ -5,14 +5,6 @@
 </template>
 
 <script>
-import cloudbase from "@cloudbase/js-sdk";
-// 云开发初始化
-const app = cloudbase.init({
-  env: "dev-serve-7g46wttx6ced4f15",
-  region: "ap-guangzhou"
-});
-const db = app.database();
-
 export default {
   name: 'app'
 }

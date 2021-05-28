@@ -10,6 +10,8 @@ import 'ant-design-vue/dist/antd.css'
 import '../static/font/iconfont.css'
 import '../static/css/common.css'
 
+import './components/global.js'
+
 import cloudbase from "@cloudbase/js-sdk";
 // 云开发初始化
 const app = cloudbase.init({

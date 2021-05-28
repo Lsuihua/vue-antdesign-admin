@@ -8,7 +8,8 @@ const app = {
         defaultMenuKey:JSON.parse(getToken('menuDfKey')) || [],
         openKey:JSON.parse(getToken('openKeys')) || [],
         breadcrumb:JSON.parse(getToken('breadCrumb')) || [],
-        token:''
+        token:'',
+        viewSize:'default'
     },
     mutations:{
         SAVE_TOKEN(state,token){
@@ -39,6 +40,9 @@ const app = {
         },
         SAVE_OPEN_KEY(state,key){
             state.openKey = key;
+        },
+        CHANGE_VIEW(state,view){
+            state.viewSize = view
         }
     },
     actions:{
@@ -65,6 +69,9 @@ const app = {
         },
         SAVE_TOKEN({commit},state){
             commit('SAVE_TOKEN',state)
+        },
+        CHANGE_VIEW({commit},state){
+            commit('CHANGE_VIEW',state)
         }
     }
 }

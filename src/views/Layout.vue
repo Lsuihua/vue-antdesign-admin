@@ -1,18 +1,14 @@
 <template>
     <a-layout id="components-layout-demo-custom-trigger">
         <my-header/>
-        <my-silder/>
+        <my-sider/>
         <my-content/>
     </a-layout>
 </template>
 
 <script>
-    import myHeader from '@/components/myHeader';
-    import mySilder from '@/components/mySider';
-    import myContent from '@/components/myContent';
     export default {
-        name: "layout",
-        components:{myHeader,mySilder,myContent}
+        name: "layout"
     }
 </script>
 

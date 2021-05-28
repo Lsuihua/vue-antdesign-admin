@@ -12,10 +12,8 @@
 </template>
 
 <script>
-import myBreadcrumb from './myBreadcrumb'
 export default {
-  name: 'my-content',
-  components: { myBreadcrumb }
+  name: 'my-content'
 }
 </script>
 

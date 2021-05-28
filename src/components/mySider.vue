@@ -66,6 +66,7 @@
                 setToken('menuDfKey',JSON.stringify(item.selectedKeys));
                 //面包屑
                 let keyArr = key.split('.'),bread = [],a,b,c =0;
+                console.log(keyArr)
                 for(let i =0;i<keyArr.length;i++){
                     if(i == 0){
                         a = keyArr[i]-1;

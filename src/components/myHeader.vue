@@ -1,29 +1,36 @@
 <template>
   <a-layout-header class="header">
     <div class="logo">L&Y</div>
-    <a-menu
-      theme="dark"
-      mode="horizontal"
-      :defaultSelectedKeys="[currentMenu]"
-      :style="{ lineHeight: '60px' }"
-    >
-      <a-menu-item
-        :key="index"
-        v-for="(item, index) in menu"
-        @click="toMenuHandle(index, item.title)"
-        >{{ item.title }}</a-menu-item>
-    </a-menu>
-    <user-control/>
+    <div class="menu-box">
+      <a-menu
+        theme="dark"
+        mode="horizontal"
+        :defaultSelectedKeys="[currentMenu]"
+        :style="{ lineHeight: '60px' }"
+      >
+        <a-menu-item
+          :key="index"
+          v-for="(item, index) in menu"
+          @click="toMenuHandle(index, item.title)"
+          >{{ item.title }}</a-menu-item>
+      </a-menu>
+      <div class="menu-right flex-center">
+        <a-button :icon="viewSize == 'default'? 'fullscreen' : 'fullscreen-exit'" type="link" ghost @click="changeView"/>
+        <a-badge dot>
+          <a-icon type="notification" :style="{'color':'#fff','font-size':'16px'}"/>
+        </a-badge>
+        <user-control/>
+      </div>
+    </div>
+    
   </a-layout-header>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { setToken } from '@/utils/auth'
-import userControl from './userControl'
 export default {
   name: 'my-header',
-  components: { userControl },
   mounted: function () {
     this.$store.dispatch('CHANGE_CURRENT_MENU', this.currentMenu)
     
@@ -34,10 +41,21 @@ export default {
       setToken('currentMenu', index)
       let arr = [title]
       this.$store.dispatch('SAVE_BREAD_CRUMB', arr)
+    },
+    changeView(){
+      let size = ''
+      if (document.fullscreenElement) {
+        document.exitFullscreen()
+        size = 'default'
+      } else {
+        size = 'scale'
+        document.documentElement.requestFullscreen()
+      }
+      this.$store.dispatch('CHANGE_VIEW',size)
     }
   },
   computed: {
-    ...mapGetters(['menu', 'currentMenu'])
+    ...mapGetters(['menu', 'currentMenu','viewSize'])
   },
   watch:{
     menu:{
@@ -77,11 +95,17 @@ export default {
     font-family: '-webkit-pictograph';
     cursor: pointer;
   }
-  .user-control{
-      float: right;
+  .menu-box{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    .menu-right{
+    }
   }
+  
 }
 .ant-menu-horizontal {
   float: left;
 }
+
 </style>
