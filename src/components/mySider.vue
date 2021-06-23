@@ -123,8 +123,8 @@
         color: #1890ff;
     }
     .ant-menu-inline-collapsed{
-        li{
-            span{
+        &>li{
+            &>span{
                 display: none;
             }
         }

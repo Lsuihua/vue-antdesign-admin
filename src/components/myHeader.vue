@@ -15,10 +15,25 @@
           >{{ item.title }}</a-menu-item>
       </a-menu>
       <div class="menu-right flex-center">
-        <a-button :icon="viewSize == 'default'? 'fullscreen' : 'fullscreen-exit'" type="link" ghost @click="changeView"/>
-        <a-badge dot>
-          <a-icon type="notification" :style="{'color':'#fff','font-size':'16px'}"/>
-        </a-badge>
+        <a-tooltip placement="bottomRight">
+          <template slot="title">
+            <span>视口切换</span>
+          </template>
+          <a-button :icon="viewSize == 'default'? 'fullscreen' : 'fullscreen-exit'" type="link" ghost @click="changeView"/>
+        </a-tooltip>
+        
+        <a-popover placement="bottomRight" arrow-point-at-center>
+          <template slot="title">
+            <span>系统消息</span>
+          </template>
+          <template slot="content">
+            <p>Content</p>
+            <p>Content</p>
+          </template>
+          <a-badge dot>
+            <a-icon type="notification" :style="{'color':'#fff','font-size':'16px'}"/>
+          </a-badge>
+        </a-popover>
         <user-control/>
       </div>
     </div>
@@ -42,6 +57,7 @@ export default {
       let arr = [title]
       this.$store.dispatch('SAVE_BREAD_CRUMB', arr)
     },
+    // 切换全屏视口
     changeView(){
       let size = ''
       if (document.fullscreenElement) {
@@ -99,8 +115,6 @@ export default {
     height: 100%;
     display: flex;
     justify-content: space-between;
-    .menu-right{
-    }
   }
   
 }

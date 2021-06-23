@@ -173,6 +173,9 @@
         <img src="../../../static/img/code.jpg"/>
       </a-modal>
     </a-row>
+
+    <div class="record">备案号：<a href="https://beian.miit.gov.cn" target="_blank">闽ICP备18012716号-1</a></div>
+    
   </div>
 </template>
 
@@ -355,6 +358,23 @@ export default {
     position: fixed;
     top: 50%;
     transform: translateY(-60%);
+}
+
+
+@color:rgb(21, 184, 248);
+.record{
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  height: 40px;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.3);
+  color: @color;
+  line-height: 40px;
+  a{
+    color: @color;
+  }
 }
 
 </style>
